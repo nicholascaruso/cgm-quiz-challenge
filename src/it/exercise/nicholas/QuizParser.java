@@ -1,5 +1,6 @@
 package it.exercise.nicholas;
 
+import it.exercise.nicholas.util.Constants;
 import it.exercise.nicholas.util.InputFormatException;
 
 import java.util.*;
@@ -29,13 +30,13 @@ public class QuizParser {
         String question = splittedInput.remove(0).trim();
         List<String> answers = formatAnswers(splittedInput);
         if(questions.containsKey(question)){
-            //Print Answers already stored
+            //Print Answers from existing question
             return printAnswers(questions.get(question));
         }
         else{
             //Save new Question with answers
             addQuestionWithAnswers(question,answers);
-            return "the answer to life, universe and everything is 42";
+            return Constants.NEW_QUESTION_MSG;
         }
 
     }
@@ -47,7 +48,7 @@ public class QuizParser {
     }
 
     private List<String> splitAnswerFromQuestions(String inputText) throws InputFormatException {
-        List<String> splittedInput = new LinkedList<>(Arrays.asList(inputText.split("(?<=\\?)\\s+|\\s+(?=\")")));
+        List<String> splittedInput = new LinkedList<>(Arrays.asList(inputText.split(Constants.REGEX_PATTERN)));
         validator.validateSplittedInput(splittedInput);
         return splittedInput;
     }
@@ -62,9 +63,11 @@ public class QuizParser {
 
     private String printAnswers(List<String> answers){
         StringBuilder sb = new StringBuilder();
-        for(String answer: answers){
-            sb.append(answer);
-            sb.append("\n");
+        Iterator<String> iterator = answers.iterator();
+        while(iterator.hasNext()){
+            sb.append(Constants.BULLET_POINT);
+            sb.append(iterator.next());
+            if(iterator.hasNext()){sb.append(Constants.NEW_LINE);}
         }
         return sb.toString();
     }
