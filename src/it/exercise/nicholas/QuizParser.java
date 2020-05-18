@@ -24,6 +24,10 @@ public class QuizParser {
         return instance;
     }
 
+    public Map<String,List<String>> getQuestionsWithAnswers(){
+        return this.questions;
+    }
+
     public String parse(String inputText) throws InputFormatException {
         validator.validateQuestion(inputText);
         List<String> splittedInput = splitAnswerFromQuestions(inputText);
